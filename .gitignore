@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+
+# local verification configs that may contain machine-specific paths
+config.local.json
