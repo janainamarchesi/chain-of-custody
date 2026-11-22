@@ -12,6 +12,23 @@ It works regardless of project, language, framework, or product type. The exampl
 
 ---
 
+## 0. This is upstream of development
+
+Think of a delivery pipeline: deliberation → design docs → architecture → tickets → code → tests → review → production. Chain of Custody owns the first two links, and nothing else.
+
+That position is the whole argument. Every artifact downstream inherits whatever is in the design docs, uncritically, because by then nobody is checking them against the meeting anymore — they are checking them against each other. A wrong requirement at this stage does not surface as a bug in review; it surfaces as a well-tested feature that somebody paid for and nobody asked for.
+
+So the method spends most of its effort **before writing**: reading the source whole, building the evidence base, classifying what was discarded. It is upstream work, and it is where the cheapest possible fix is still available. One line changed in a fact table costs a minute. The same correction three sprints downstream costs a rewrite.
+
+Two consequences follow, and both are deliberate:
+
+- **This method stops at the package.** It does not decide your architecture, size your tickets, or write code. It produces documents precise enough that the next stage can start without a meeting.
+- **It refuses to be helpful past its evidence.** When the source does not say something, the method records the gap as open rather than filling it with a plausible guess — even when the guess is probably right. A confirmed absence is a design input; an invented certainty is a liability inherited by every stage after it.
+
+> Upstream is cheap, downstream is expensive, and the boundary between them is invisible while you are crossing it. That is why the chain has to be verifiable rather than merely convincing.
+
+---
+
 ## 1. The problem this solves
 
 AI generates documentation fast. Too fast — and that is where the problem starts.
@@ -383,6 +400,26 @@ What that case taught, and what is codified here:
 One lesson came from the validator itself: on its first run it reported twelve problems, and **none were in the documents** — they were regex bugs in the validator (a missing `m` flag, the table header line being read as data, and a section ending at the wrong heading). The antidote was to open the file at the reported line before "fixing" the text. Tuning the prose until the regex passed would have turned the check into theater.
 
 A generalized method is only worth it if the case that produced it would have been harder without it. This one was.
+
+---
+
+## 12. Take it, break it, improve it
+
+This repository is an **invitation, not a finished product**. The method came out of one reference case, and one case is not a proof — it is a starting point. If you run it on your own source and it fails, that failure is more valuable to the method than another successful example.
+
+**Ways to contribute that actually move it forward:**
+
+| What | Why it matters |
+|---|---|
+| **Run it on a different stack** — mobile, data pipeline, infrastructure, a library | The three generics (§7) are a claim, not a verified fact. A case that breaks them is the most useful thing you can find. |
+| **Use a non-meeting source** — a PR thread, a Slack thread, a discovery doc | Locator formats differ; the verifier's regexes were only ever tested against `[hh:mm] Speaker`. |
+| **Find a validator bug** | It already had several. If the script accuses a correct document, that is an issue — and fixing it is part of the method, not a workaround. |
+| **Add a template or a check** | The six templates cover what the reference case needed. Yours may need a seventh. |
+| **Report a false sense of security** | The most valuable bug class: a check that passes when it should not. |
+
+**What to send:** open an issue with the source type, the phase where it broke, and what you expected — or a pull request with the config, template or check that fixes it. Small and specific beats a rewrite.
+
+> If something here is wrong, it should be wrong *visibly*. A method about traceability that hides its own failures would be a contradiction neither of us could defend.
 
 ---
 
