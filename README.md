@@ -390,7 +390,7 @@ A generalized method is only worth it if the case that produced it would have be
 
 - [Elephant-Goldfish Model — Google Open Source Blog](https://opensource.googleblog.com/2026/10/introducing-elephant-goldfish-model-plugin.html) — the split between context session and validation session
 - [`METHOD.md`](METHOD.md) — phase-by-phase detail
-- [`article/medium-article.md`](article/medium-article.md) — the long-form write-up of building this
+- [`examples/webhooks-oms/`](examples/webhooks-oms/README.md) — the reference case, end to end
 
 ## License
 
