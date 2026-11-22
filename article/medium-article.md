@@ -2,6 +2,8 @@
 
 *How to make AI-generated design docs trustworthy — a method built on the Elephant-Goldfish Model and a provenance ledger.*
 
+> **TL;DR** — AI documentation fails silently: it invents requirements, drops the discarded ones, and loses the trade-offs. The fix isn't a better prompt. It's (1) separating the session that writes from a context-free session that validates, and (2) a provenance ledger that makes every sentence traceable to a source or explicitly marks it as your own inference. This post is the method, the mistakes that shaped it, and an open-source implementation.
+
 ---
 
 I asked an AI to turn a 55-minute meeting transcript into a full design-docs package: PRD, RFC, FDD, ADRs, traceability tracker.
@@ -190,6 +192,6 @@ The AI is genuinely good at the writing. What it can't do is know which sentence
 
 ---
 
-*The framework, templates, verifier, and the four skills are open source: **[github.com/janainamarchesi/transcript-to-design-docs](https://github.com/janainamarchesi/transcript-to-design-docs)**. MIT licensed. The reference case — including the transcript, the package, and the git history — is linked in the repo.*
+*The framework, templates, verifier, and the four skills are open source — [**github.com/janainamarchesi/transcript-to-design-docs**](https://github.com/janainamarchesi/transcript-to-design-docs). MIT licensed. It includes a worked reference case with the full transcript, the finished package, and the git history, so you can check the claims above against a real artifact.*
 
 *If you've fought this problem, I'd like to hear which failure bit you first: invented requirements, lost trade-offs, or the discard that quietly came back.*
