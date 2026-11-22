@@ -1,6 +1,6 @@
 ---
 name: design-docs-validate
-description: Validates a design docs package from a transcript using the Goldfish protocol in the transcript-to-design-docs framework — four checks in zero-context subagents (comprehension, adversarial review, implementation readiness, provenance) plus the mechanical check of locators, code paths, allowed sources and immutability. Use in phase F8 of the framework, after the PRD/RFC/FDD/ADR documents are written and before publishing. The author never validates their own work.
+description: Validates a design docs package from a transcript using the Goldfish protocol in the Chain of Custody method — four checks in zero-context subagents (comprehension, adversarial review, implementation readiness, provenance) plus the mechanical check of locators, code paths, allowed sources and immutability. Use in phase F8 of the method, after the PRD/RFC/FDD/ADR documents are written and before publishing. The author never validates their own work.
 ---
 
 # design-docs-validate — F8: Goldfish + mechanical verification
@@ -85,7 +85,7 @@ Prompt:
 
 > Pick ten concrete claims at random in this document (requirements, decisions, numbers, names). For each one, is there a locator in the source or a code path that supports it? Go to the source and confirm. Point out any that do not resolve or that were attributed to the wrong speaker.
 
-**This is this framework's contribution to the original protocol.** The first three test **clarity**; this one tests **truth**. A document can be perfectly clear about something nobody decided.
+**This is Chain of Custody's contribution to the original protocol.** The first three test **clarity**; this one tests **truth**. A document can be perfectly clear about something nobody decided.
 
 Run G4 on all four documents, not only on the tracker. The tracker can be correct while an FR in the PRD describes something nobody approved.
 

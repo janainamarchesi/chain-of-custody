@@ -1,6 +1,6 @@
 ---
 name: design-docs
-description: Transforms a deliberation source (meeting transcript, ticket/PR/Slack thread, discovery document) into a complete design docs package — PRD, RFC, FDD, ADRs, and a traceability tracker — without inventing a requirement, a decision, or a file path. Use when the user asks to "document from the transcript", "generate PRD/RFC/FDD/ADR", "produce the design docs package", or mentions the transcript-to-design-docs framework. Orchestrates the design-docs-evidence, design-docs-write, and design-docs-validate skills.
+description: Transforms a deliberation source (meeting transcript, ticket/PR/Slack thread, discovery document) into a complete design docs package — PRD, RFC, FDD, ADRs, and a traceability tracker — without inventing a requirement, a decision, or a file path. Use when the user asks to "document from the transcript", "generate PRD/RFC/FDD/ADR", "produce the design docs package", or mentions the Chain of Custody method. Orchestrates the design-docs-evidence, design-docs-write, and design-docs-validate skills.
 ---
 
 # design-docs — F0: orchestration

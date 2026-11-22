@@ -1,6 +1,6 @@
 ---
 name: design-docs-evidence
-description: Builds the evidence base of a design docs package — the table of classified facts (Decision, Requirement, Constraint, Discard, Defer, Open, Code hook, Noise) with a locator for each, plus the integration surface map with real symbols from the existing system. Use in phase F1 of the transcript-to-design-docs framework, after reading the entire deliberation source and before writing any delivery document. Without this base, the tracker does not close and the document turns into generic prose.
+description: Builds the evidence base of a design docs package — the table of classified facts (Decision, Requirement, Constraint, Discard, Defer, Open, Code hook, Noise) with a locator for each, plus the integration surface map with real symbols from the existing system. Use in phase F1 of the Chain of Custody method, after reading the entire deliberation source and before writing any delivery document. Without this base, the tracker does not close and the document turns into generic prose.
 ---
 
 # design-docs-evidence — F1: the evidence base

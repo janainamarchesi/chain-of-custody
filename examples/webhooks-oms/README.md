@@ -1,6 +1,6 @@
 # Reference case — order webhooks OMS
 
-This is the case the framework was extracted from. It is here so you can see the method applied end to end, and so you can check the claims in the README against a real artifact.
+This is the case Chain of Custody was extracted from. It is here so you can see the method applied end to end, and so you can check the claims in the README against a real artifact.
 
 **The exercise:** an Order Management System (Node.js + TypeScript + Express + Prisma + MySQL) had no events, no queue, and no webhooks. A ~55-minute technical meeting decided to add **outbound webhooks on order status changes**. Nothing was written down except a transcript. The deliverable was a complete design-docs package — with an absolute rule that **not one line of application code could change**.
 
@@ -47,7 +47,7 @@ Three real failures, all documented rather than hidden:
 
 3. **The validator blamed the documents.** On its first run it reported twelve problems; every one was a bug in the validator. See the README §11.
 
-## Applying the framework here
+## Applying the method here
 
 The generic config for this project is [`config.example.pt-br.json`](../../config.example.pt-br.json) — the transcript locator is `[hh:mm] Name`, the allowed sources are `TRANSCRICAO`/`CODIGO`, and the two files the feature *proposes* to create are in `newPathAllowlist`.
 
@@ -61,4 +61,4 @@ That config reproduces the published result exactly: **0 problems**, 111 tracker
 
 ## Why this case is worth reading
 
-Not because it ended clean, but because the failure modes the framework now guards against are the ones that actually occurred here. Every anti-pattern in the README's §8 table has a timestamp in this project's history.
+Not because it ended clean, but because the failure modes Chain of Custody now guards against are the ones that actually occurred here. Every anti-pattern in the README's §8 table has a timestamp in this project's history.

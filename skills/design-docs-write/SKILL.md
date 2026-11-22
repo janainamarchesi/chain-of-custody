@@ -1,6 +1,6 @@
 ---
 name: design-docs-write
-description: Generates the design docs from a transcript in the transcript-to-design-docs framework — ADRs (MADR with a mandatory negative consequence), RFC, FDD, PRD, traceability tracker and process README — writing each document at the right altitude from the evidence base of phase F1. Use after design-docs-evidence and before design-docs-validate. Each document has a declared boundary; violating it produces duplication and, worse, contradiction between documents.
+description: Generates the design docs from a transcript in the Chain of Custody method — ADRs (MADR with a mandatory negative consequence), RFC, FDD, PRD, traceability tracker and process README — writing each document at the right altitude from the evidence base of phase F1. Use after design-docs-evidence and before design-docs-validate. Each document has a declared boundary; violating it produces duplication and, worse, contradiction between documents.
 ---
 
 # design-docs-write — F2 to F7: writing at the right altitudes

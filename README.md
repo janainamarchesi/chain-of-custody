@@ -1,4 +1,8 @@
-# Transcript → Design Docs
+# Chain of Custody
+
+**A method for design docs that can be audited.**
+
+> Every claim keeps its chain of custody: source → evidence → document, unbroken. Ask a sentence where it came from, and the ledger answers.
 
 A method for turning **any source of deliberation** — a meeting transcript, a ticket thread, PR comments, discovery notes, a Slack thread — into a **traceable, implementable design-docs package**, using AI.
 
@@ -33,6 +37,14 @@ Two things hold the method up, and they come from different traditions.
 **From traceability work:** the only mechanical defense against hallucination is a **provenance ledger**. Not a promise that the AI was careful — an artifact that, when consulted, shows where each line came from. If it has no origin and isn't marked as a derivation, it isn't a claim: it's a hallucination waiting for review.
 
 Together they give a method with a **context boundary** (Elephant/Goldfish) and an **evidence boundary** (provenance).
+
+### Why "chain of custody"
+
+The name is borrowed from evidence handling. In a legal or forensic process, an object is only admissible if there is an unbroken record of every hand it passed through — who had it, when, and what changed. Break the chain once and the object is worthless, regardless of how convincing it looks.
+
+A design doc works the same way. The transcript is the artifact. The ledger is the custody record. Every sentence in the finished document is an item that must trace back through the ledger to the exact line and speaker it came from — and if the chain breaks, the sentence is not "probably fine": it is inadmissible, and it gets removed.
+
+That is why the method has a *forbidden* provenance value (`UNKNOWN`) rather than a tolerance for it. A document that is 95% traceable is not 95% trustworthy. It is unauditable, and you cannot tell which 5% will become the bug.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -191,7 +203,7 @@ Go/no-go. A question with no answer in the document is a gap, not a detail.
 
 > "Pick ten claims at random. For each, find its locator in the ledger and confirm it resolves in the source. Flag any that don't."
 
-This check is this framework's contribution to the original protocol. The first three test **clarity**; this one tests **truth**. A document can be perfectly clear about something nobody decided.
+This check is Chain of Custody's contribution to the original protocol. The first three test **clarity**; this one tests **truth**. A document can be perfectly clear about something nobody decided.
 
 Critiques return to the Elephant, who fixes and resubmits. The cycle ends when G1 passes without correction and G3 gives a go.
 
@@ -274,7 +286,7 @@ Four skills implement the method. Each is self-contained: it can be invoked in a
 
 The normal path is to invoke `design-docs` and let it drive. The other three exist separately because each has its own exit criterion — and because F8 must run in a different context from the rest.
 
-**Install:** copy the four directories under [`skills/`](skills/) into your project's `.claude/skills/`. They reference the framework files by relative path, so keep `frameworks/transcript-to-design-docs/` (or this repo) alongside — or adjust the paths at the top of each skill.
+**Install:** copy the four directories under [`skills/`](skills/) into your project's `.claude/skills/`. They reference the framework files by relative path, so keep `frameworks/chain-of-custody/` (or this repo) alongside — or adjust the paths at the top of each skill.
 
 ### Manually
 
@@ -346,7 +358,7 @@ A package is ready when **all** of these hold.
 
 ## 11. The reference case
 
-This framework was extracted from a real exercise: turning the transcript of a ~55-minute technical meeting about a webhook system into a complete design-docs package for an existing Node/TypeScript service, without touching a single line of application code.
+This method was extracted from a real exercise: turning the transcript of a ~55-minute technical meeting about a webhook system into a complete design-docs package for an existing Node/TypeScript service, without touching a single line of application code.
 
 Final result on that case:
 
@@ -370,7 +382,7 @@ What that case taught, and what is codified here:
 
 One lesson came from the validator itself: on its first run it reported twelve problems, and **none were in the documents** — they were regex bugs in the validator (a missing `m` flag, the table header line being read as data, and a section ending at the wrong heading). The antidote was to open the file at the reported line before "fixing" the text. Tuning the prose until the regex passed would have turned the check into theater.
 
-A generalized framework is only worth it if the case that produced it would have been harder without it. This one was.
+A generalized method is only worth it if the case that produced it would have been harder without it. This one was.
 
 ---
 

@@ -313,7 +313,7 @@ Two layers, both mandatory.
 ### 8.1 Mechanical check
 
 ```bash
-node frameworks/transcript-to-design-docs/scripts/verify.mjs <repo> <config.json>
+node frameworks/chain-of-custody/scripts/verify.mjs <repo> <config.json>
 ```
 
 Checks, without judgment:

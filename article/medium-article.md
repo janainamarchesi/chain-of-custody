@@ -1,8 +1,8 @@
 # Your AI Wrote a Great PRD. It Was About a System Nobody Agreed to Build.
 
-*How to make AI-generated design docs trustworthy — a method built on the Elephant-Goldfish Model and a provenance ledger.*
+*How to make AI-generated design docs trustworthy — introducing **Chain of Custody**, a method built on the Elephant-Goldfish Model and a provenance ledger.*
 
-> **TL;DR** — AI documentation fails silently: it invents requirements, drops the discarded ones, and loses the trade-offs. The fix isn't a better prompt. It's (1) separating the session that writes from a context-free session that validates, and (2) a provenance ledger that makes every sentence traceable to a source or explicitly marks it as your own inference. This post is the method, the mistakes that shaped it, and an open-source implementation.
+> **TL;DR** — AI documentation fails silently: it invents requirements, drops the discarded ones, and loses the trade-offs. The fix isn't a better prompt. It's (1) separating the session that writes from a context-free session that validates, and (2) a provenance ledger that makes every sentence traceable to a source or explicitly marks it as your own inference. I call it Chain of Custody. This post is the method, the mistakes that shaped it, and an open-source implementation.
 
 ---
 
@@ -74,7 +74,13 @@ That's where the second pillar comes in.
 
 ## The provenance ledger
 
+## The provenance ledger
+
 The only mechanical defense against hallucination isn't "being careful". It's an artifact that, when consulted, shows where each line came from.
+
+This is where the name comes from. In evidence handling, an object is admissible only if there's an unbroken record of every hand it passed through — who had it, when, what changed. Break the chain once and it's worthless, however convincing it looks. A design doc is the same: the transcript is the artifact, the ledger is the custody record, and every sentence must trace back to the exact line and speaker it came from.
+
+So the chain has to be unbroken. That's why the method has a *forbidden* provenance value rather than a tolerance for it — a document that's 95% traceable isn't 95% trustworthy. It's unauditable, and you can't tell which 5% will become the bug.
 
 Before writing a single sentence, you build a **fact table**: every decision, requirement, constraint, discard, deferral, and open question in the source, each with a locator (`[09:14] Diego`) and a classification.
 
@@ -192,6 +198,6 @@ The AI is genuinely good at the writing. What it can't do is know which sentence
 
 ---
 
-*The framework, templates, verifier, and the four skills are open source — [**github.com/janainamarchesi/transcript-to-design-docs**](https://github.com/janainamarchesi/transcript-to-design-docs). MIT licensed. It includes a worked reference case with the full transcript, the finished package, and the git history, so you can check the claims above against a real artifact.*
+*Chain of Custody — the method, the templates, the verifier, and the four skills — is open source: [**github.com/janainamarchesi/chain-of-custody**](https://github.com/janainamarchesi/chain-of-custody). MIT licensed. It includes a worked reference case with the full transcript, the finished package, and the git history, so you can check the claims above against a real artifact.*
 
 *If you've fought this problem, I'd like to hear which failure bit you first: invented requirements, lost trade-offs, or the discard that quietly came back.*
