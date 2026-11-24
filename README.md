@@ -327,7 +327,7 @@ The mechanical check validates: required files exist, every locator resolves in 
 Two keys deserve attention:
 
 - **`code.newPathAllowlist`** — the **new** files the feature proposes to create. They legitimately don't exist yet; without being listed here, check 8 flags them (correctly) as missing.
-- **`immutable.gitBinary`** — path to the git executable, for environments where it isn't on `PATH`. If it can't be found, check 10 only records that it didn't run; it never fails the package because of that.
+- **`immutable.gitBinary`** — path to the git executable, for environments where it isn't on `PATH`. If it can't be found, check 10 only records that it didn't run; it never fails the package because of that. Because an absolute path differs per machine and shouldn't be committed, the validator also reads the `COC_GIT_BINARY` environment variable first — set it once in your shell and leave the config portable.
 
 **The validator is language-independent too.** Section headings and inline markers are regex fragments in `docs.sections` and `docs.markers`, not hardcoded English. [`config.example.pt-br.json`](config.example.pt-br.json) is the same package validated in Portuguese — it is what runs against the reference case:
 
@@ -420,6 +420,20 @@ This repository is an **invitation, not a finished product**. The method came ou
 **What to send:** open an issue with the source type, the phase where it broke, and what you expected — or a pull request with the config, template or check that fixes it. Small and specific beats a rewrite.
 
 > If something here is wrong, it should be wrong *visibly*. A method about traceability that hides its own failures would be a contradiction neither of us could defend.
+
+### Testing the validator itself
+
+A checker nobody has tried to fool is a checker nobody should trust. This repository ships a **mutation test** for the mechanical check: it takes the reference package, injects one defect at a time, and asserts that the validator reports it.
+
+```bash
+node tests/mutate.mjs <package-dir> <config.json>
+```
+
+Thirteen mutations, each a single defect a correct validator must catch: a broken transcript locator, a nonexistent code path, a disallowed source, a renamed table header, a removed contract example, lost open questions, a broken ADR link, mojibake, and a missing MADR section. The script also runs the unmutated package first — if the baseline is not clean, no result below it means anything.
+
+**Writing the suite found a real hole.** The first run scored 12/13: renaming one table header in the tracker went undetected. The tracker holds one table per document, and the check only asked whether the correct header appeared *somewhere* — so a corrupted header among four correct ones passed. The fix requires every header row to match. That is what the suite is for: it is a check on the checks.
+
+If you add a check to `verify.mjs`, add a mutation for it here. A check without a mutation is a claim without evidence.
 
 ---
 

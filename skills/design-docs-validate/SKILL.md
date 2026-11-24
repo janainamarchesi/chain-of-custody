@@ -26,7 +26,7 @@ That is why each check runs in a new subagent, with **only the document**. Do no
 node ../../scripts/verify.mjs <repo> <config.json>
 ```
 
-No git arguments on the PATH? Pass `immutable.gitBinary` in the config pointing to the binary.
+No git on the PATH? Set `COC_GIT_BINARY` to the absolute path of the binary, or pass `immutable.gitBinary` in the config. The environment variable is preferred because it keeps the config portable.
 
 The script verifies:
 

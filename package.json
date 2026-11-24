@@ -1,0 +1,35 @@
+{
+  "name": "chain-of-custody",
+  "version": "0.1.0",
+  "description": "A method for design docs that can be audited — from a source of deliberation to a traceable, implementable package.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Janaina Marchesi",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "verify": "node scripts/verify.mjs",
+    "test": "node tests/mutate.mjs"
+  },
+  "keywords": [
+    "design-docs",
+    "traceability",
+    "provenance",
+    "adr",
+    "prd",
+    "rfc",
+    "fdd",
+    "ai-assisted"
+  ],
+  "files": [
+    "scripts/",
+    "templates/",
+    "skills/",
+    "tests/",
+    "METHOD.md",
+    "README.md",
+    "config.example.json",
+    "config.example.pt-br.json"
+  ]
+}

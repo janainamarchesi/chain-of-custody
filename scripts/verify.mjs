@@ -356,6 +356,19 @@ if (tracker) {
     problems.push('TRACKER: exact header not found');
   }
 
+  // A tracker usually holds one table per document. Every table must carry the
+  // same header: one corrupted header among correct ones is a real defect and
+  // is easy to miss when the check only asks whether the header appears at all.
+  const headerRows = tracker.split(/\r?\n/).filter((line) => {
+    const cells = line.split('|').slice(1, -1).map((c) => c.trim());
+    return cells.length === 6 && cells[0] === 'ID';
+  });
+  for (const row of headerRows) {
+    if (row.trim() !== cfg.tracker.header.trim()) {
+      problems.push(`TRACKER: table header does not match the expected header: ${row.trim()}`);
+    }
+  }
+
   const allowed = cfg.tracker.allowedSources;
 
   for (const line of tracker.split(/\r?\n/)) {
@@ -448,7 +461,10 @@ if (readme) {
 // ---------------------------------------------------------------------------
 
 function changedSinceGit(baseRef) {
-  const git = cfg.immutable.gitBinary || 'git';
+  // Resolution order: environment variable, then config, then plain 'git'.
+  // The env var exists because a config file cannot portably hold an absolute
+  // path — it differs per machine, and committing one is a broken default.
+  const git = process.env.COC_GIT_BINARY || cfg.immutable.gitBinary || 'git';
   const out = execFileSync(git, ['-C', repo, 'diff', '--name-only', baseRef], {
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'ignore'],
