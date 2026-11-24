@@ -10,7 +10,8 @@
   },
   "scripts": {
     "verify": "node scripts/verify.mjs",
-    "test": "node tests/mutate.mjs"
+    "test": "node tests/mutate.mjs",
+    "test:g4": "node tests/g4/score-hard.mjs"
   },
   "keywords": [
     "design-docs",

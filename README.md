@@ -435,6 +435,18 @@ Thirteen mutations, each a single defect a correct validator must catch: a broke
 
 If you add a check to `verify.mjs`, add a mutation for it here. A check without a mutation is a claim without evidence.
 
+### Testing the protocol check
+
+The mutation suite tests the mechanical validator. It cannot test **G4** — the provenance check — because G4 is a protocol, not a script. You cannot unit-test "an agent reading carefully."
+
+So G4 is measured as a detector: a fixture with known fabrications, a zero-context agent, and a scorer that reports precision and recall.
+
+```bash
+node tests/g4/score-hard.mjs <run1.md> <run2.md> ...
+```
+
+The fixture is an unnumbered, realistic FDD with seven subtle fabrications — value swaps, invented endpoints and details, a scope conflation, and an open question stated as a requirement. Three zero-context runs caught all seven with no false alarms. Read [`tests/g4/README.md`](tests/g4/README.md) for the protocol, the scoring, and the honest limitation: the experiment audits the whole document while G4 as written samples ten claims, so it measures the ceiling, not the deployed behavior.
+
 ---
 
 ## References

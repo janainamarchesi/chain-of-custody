@@ -1,0 +1,187 @@
+{
+  "note": "Harder variant: an unnumbered, realistic FDD with seven subtle fabrications. NEVER give this file to the validator under test.",
+  "why_this_exists": "The first fixture scored 100%/100% across three zero-context runs with zero variance. A test that cannot fail proves nothing. This variant makes the document longer, removes the numbering that let the validator work line-by-line, and makes the fabrications subtle: single-value swaps that keep the document internally coherent, and plausible engineering improvements presented as decisions.",
+  "fabrications": [
+    {
+      "id": "H1",
+      "match": "health check",
+      "text": "O worker deve expor um endpoint de health check em /health",
+      "reason": "INVENTED_REQUIREMENT",
+      "note": "Nunca foi discutido. Nenhum participante menciona health check, liveness ou readiness. O worker é um processo de polling, não um servidor HTTP. A justificativa 'para que o orquestrador consiga reiniciá-lo' é verossímil e torna a invenção mais difícil de detectar."
+    },
+    {
+      "id": "H2",
+      "match": ["4 horas", "4h"],
+      "text": "backoff de 1m / 5m / 30m / 4h / 12h",
+      "reason": "WRONG_VALUE",
+      "note": "[09:17] Diego diz '1 minuto, 5 minutos, 30 minutos, 2 horas, 12 horas'. [09:48] Larissa repete '1m/5m/30m/2h/12h'. O documento troca 2 horas por 4 horas. Sutil: mesma ordem de grandeza, e o total ainda 'parece' razoável."
+    },
+    {
+      "id": "H3",
+      "match": "UUID v7",
+      "text": "O X-Event-Id é um UUID v7, escolhido por ser ordenável no tempo",
+      "reason": "INVENTED_REQUIREMENT",
+      "note": "A transcrição diz apenas 'X-Event-Id ... com um UUID gerado quando o evento entra na outbox' [09:25] Diego. [09:51] Larissa fala de UUID para a chave da outbox, não para o header. Não especifica versão de UUID nem justifica ordenação temporal. UUID v7 é uma invenção plausível."
+    },
+    {
+      "id": "H4",
+      "match": "30 segundos",
+      "text": "O timeout HTTP é de 30 segundos",
+      "reason": "WRONG_VALUE",
+      "note": "[09:42] Diego: '10 segundos. Cliente lento que não responde em 10s a gente trata como falha'. O documento diz 30 s. Sutil: 30 s é um valor comum em integrações."
+    },
+    {
+      "id": "H5",
+      "match": "fase 2",
+      "text": "O dashboard visual para clientes está previsto para a fase 2",
+      "reason": "DISCARDED_AS_REQUIREMENT",
+      "note": "[09:39] Marcos pergunta sobre dashboard; [09:40] Larissa: 'Não, agora não. Só endpoints. Painel é projeto separado do time de frontend.' [09:48] Larissa: 'Dashboard visual fora de escopo.' Foi descartado, não adiado. O documento o promove a roadmap — e o vizinho de linha (e-mail) realmente É fase futura, o que cria um contraste que torna a troca sutil."
+    },
+    {
+      "id": "H6",
+      "match": "100 requisições",
+      "text": "O rate limiting de saída será de 100 requisições por minuto por cliente",
+      "reason": "OPEN_AS_REQUIREMENT",
+      "note": "[09:39] Diego: 'Eu acho que não. A gente observa e implementa se virar problema.' Larissa: 'Fica como observar e decidir depois.' Ficou em aberto; nenhum número foi acordado. O documento inventa um número e o apresenta como decisão."
+    },
+    {
+      "id": "H7",
+      "match": "corpo bruto e o timestamp",
+      "text": "A assinatura cobre o corpo bruto e o timestamp",
+      "reason": "WRONG_SCOPE",
+      "note": "[09:22] Sofia: 'HMAC-SHA256 sobre o corpo do request.' [09:48] Larissa: 'HMAC-SHA256 sobre payload.' Só o corpo. Incluir o timestamp na assinatura é uma prática defensável, mas não foi decidida — é derivação de engenharia apresentada como fato. O timestamp existe na transcrição [09:44], mas como header separado para o cliente detectar replay, não como parte da assinatura."
+    }
+  ],
+  "derived_claims": [
+    {
+      "id": "D1",
+      "match": "nunca aparece em logs",
+      "text": "A secret nunca aparece em logs nem nas respostas de listagem ou atualização",
+      "note": "Derivação de segurança. A transcrição [09:22] Diego menciona um cliente que vazou secret em log da aplicação dele — não uma regra nossa. A regra 'nunca logar' é uma prática correta, mas não foi decidida na reunião."
+    },
+    {
+      "id": "D2",
+      "match": "sem expor a secret",
+      "text": "A listagem retorna os endpoints do cliente sem expor a secret",
+      "note": "Derivação de D1. Não está na transcrição."
+    },
+    {
+      "id": "D3",
+      "match": "remoção é lógica",
+      "text": "A remoção é lógica",
+      "note": "Não discutido. [09:33] Bruno diz apenas 'DELETE pra remover'."
+    },
+    {
+      "id": "D4",
+      "match": "métricas derivadas do banco",
+      "text": "métricas derivadas do banco",
+      "note": "A transcrição só confirma Pino [09:29]. O eixo de métricas não foi discutido."
+    },
+    {
+      "id": "D5",
+      "match": "tracing por",
+      "text": "tracing por X-Event-Id propagado nas chamadas",
+      "note": "Derivação. A transcrição não discute tracing."
+    },
+    {
+      "id": "D6",
+      "match": "débito de estoque",
+      "text": "O débito de estoque ocorre apenas em PENDING → PAID. A reposição ocorre em PAID → CANCELLED e PROCESSING → CANCELLED.",
+      "note": "Vem do código (order.status.ts), não da transcrição. Legítimo como fonte CODIGO, mas o validador desta rodada só recebe a transcrição."
+    },
+    {
+      "id": "D7",
+      "match": "descrição do endpoint",
+      "text": "O cadastro recebe a URL, os tipos de evento e a descrição do endpoint",
+      "note": "[09:31] Marcos lista url, secret gerada e lista de status. 'Descrição do endpoint' não aparece."
+    },
+    {
+      "id": "D8",
+      "match": "paginação",
+      "text": "com paginação",
+      "note": "[09:34] Marcos diz 'os últimos 100 webhooks'. Paginação é derivação."
+    },
+    {
+      "id": "D9",
+      "match": "índice principal",
+      "text": "O índice principal é composto por status e created_at",
+      "note": "[09:08] Diego: 'índice no campo de status ... e em created_at'. 'Composto' é uma interpretação de modelagem."
+    },
+    {
+      "id": "D10",
+      "match": "Node.js, TypeScript, Express, Prisma e MySQL",
+      "text": "A plataforma é um OMS em Node.js, TypeScript, Express, Prisma e MySQL",
+      "note": "Vem do código (package.json, schema.prisma), não da transcrição. Legítimo como fonte CODIGO, mas não é falha de rastreabilidade."
+    },
+    {
+      "id": "D11",
+      "match": "prom-client",
+      "text": "Não há prom-client nem OpenTelemetry",
+      "note": "Vem do código (package.json). Não é falha."
+    },
+    {
+      "id": "D12",
+      "match": "WEBHOOK_PAYLOAD_TOO_LARGE",
+      "text": "WEBHOOK_PAYLOAD_TOO_LARGE, WEBHOOK_DELIVERY_FAILED, WEBHOOK_ENDPOINT_DISABLED",
+      "note": "[09:28] Bruno cita três códigos 'e etc.' O 'etc.' implica mais códigos, mas estes três nomes específicos não estão na transcrição. Derivação plausível, não fabricação."
+    },
+    {
+      "id": "D13",
+      "match": "entregue por POST",
+      "text": "O evento é entregue por POST na URL cadastrada pelo cliente",
+      "note": "O método HTTP não é dito explicitamente. [09:20] Sofia fala de 'mandar a assinatura num header'; [09:18] Diego fala de 'POST /admin/webhooks/dead-letter/:id/replay' para o replay. POST para a entrega é convenção, não declaração."
+    },
+    {
+      "id": "D14",
+      "match": "lotes pequenos",
+      "text": "O worker consome a outbox em lotes pequenos e processa cada evento em sequência",
+      "note": "[09:08] Diego: 'batch pequeno'. 'Processa cada evento em sequência' é interpretação; [09:12] fala de ordem por created_at, não de sequencialidade estrita."
+    },
+    {
+      "id": "D15",
+      "match": "Os headers de entrega são",
+      "text": "Os headers de entrega são X-Event-Id, X-Signature e X-Timestamp",
+      "note": "OMISSÃO, não fabricação. [09:44] Sofia pede também X-Webhook-Id, e o documento o omite. Um agente que aponta a omissão está certo, mas não encontrou uma fabricação."
+    },
+    {
+      "id": "D16",
+      "match": "O payload inclui",
+      "text": "O payload inclui event_id, order_id, status anterior e novo, e o snapshot do pedido",
+      "note": "OMISSÃO/vagueza. [09:43] Diego lista nove campos e diz explicitamente 'Não manda items pra não inflar'. 'Snapshot do pedido' sugere o pedido inteiro, que contradiz a intenção de payload enxuto. Ambíguo, não fabricado."
+    }
+  ],
+  "supported_spot_check": [
+    { "id": "S1", "match": "abaixo de 10 segundos" },
+    { "id": "S2", "match": "transactional outbox" },
+    { "id": "S3", "match": "snapshot do payload" },
+    { "id": "S4", "match": "UUID como chave primária" },
+    { "id": "S5", "match": "polling é de 2 segundos" },
+    { "id": "S6", "match": "processo separado" },
+    { "id": "S7", "match": "webhook_dead_letter" },
+    { "id": "S8", "match": "dead-letter/:id/replay" },
+    { "id": "S9", "match": "role `ADMIN`" },
+    { "id": "S10", "match": "HMAC-SHA256" },
+    { "id": "S11", "match": "carência de 24 horas" },
+    { "id": "S12", "match": "64 KB" },
+    { "id": "S13", "match": "HTTPS" },
+    { "id": "S14", "match": "X-Timestamp" },
+    { "id": "S15", "match": "Pino" },
+    { "id": "S16", "match": "GET /webhooks/:id/deliveries" },
+    { "id": "S17", "match": "Três sprints" },
+    { "id": "S18", "match": "Webhooks inbound" },
+    { "id": "S19", "match": "fallback por e-mail" },
+    { "id": "S20", "match": "requireRole" },
+    { "id": "S21", "match": "Atlas, MaxDistribuição e Nova Cargo" },
+    { "id": "S22", "match": "ordenação é garantida por order_id" },
+    { "id": "S23", "match": "Cada endpoint tem secret própria" },
+    { "id": "S24", "match": "CRUD de endpoints usa as rotas" },
+    { "id": "S25", "match": "O worker roda em processo separado" },
+    { "id": "S26", "match": "Ordering global entre pedidos diferentes não é garantido" },
+    { "id": "S27", "match": "O argumento é atomicidade" },
+    { "id": "S28", "match": "O replay manual da DLQ" },
+    { "id": "S29", "match": "O payload é limitado a 64 KB" },
+    { "id": "S30", "match": "A URL deve ser HTTPS" }
+  ],
+  "subtlety": "H2 and H4 are single-value swaps that keep the document internally coherent. H7 is a defensible engineering improvement presented as a decision. H1 and H3 are plausible additions a competent engineer might write. H5 and H6 sit next to genuine scope statements (email deferred, dashboard discarded) that make the conflation easy to miss. Only H5 and H6 map directly to explicit transcript statements; the rest require actually locating the passage.",
+  "scoring_note": "Precision should be computed against the 20 supported spot-checks only. A flag on a derived claim is neither a fabrication caught nor a false alarm — report it separately. Unmatched flags are reported as 'unclassified'."
+}
