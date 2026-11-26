@@ -2,7 +2,8 @@
   "$comment": "A faithful copy of config.example.pt-br.json, used by the mutation test against the reference package. The only difference is the git binary: check 10 needs a real git, and git is not always on the PATH. verify.mjs resolves it from COC_GIT_BINARY first, then immutable.gitBinary, then plain 'git'.",
 
   "docs": {
-    "required": ["docs/PRD.md", "docs/RFC.md", "docs/FDD.md", "docs/TRACKER.md"],
+    "required": ["docs/PRD.md", "docs/TRACKER.md"],
+    "optional": ["docs/RFC.md", "docs/FDD.md"],
     "adrDir": "docs/adrs",
     "adrPattern": "^ADR-\\d{3}-[a-z0-9-]+\\.md$",
     "adrMin": 5,
@@ -38,7 +39,8 @@
     "allowedSources": ["TRANSCRICAO", "CODIGO"],
     "codeSourceLabel": "CODIGO",
     "minCodeRows": 5,
-    "minTranscriptPct": 70
+    "minTranscriptPct": 70,
+    "locatorPattern": "\\[(\\d{2}:\\d{2})\\]\\s*([^;()\\n]+)"
   },
 
   "code": {
@@ -55,6 +57,12 @@
     "rfc": { "alternatives": 2, "openQuestions": 2, "adrLinks": 2 },
     "fdd": { "requestExamples": 4, "responseExamples": 4, "errorPrefix": "WEBHOOK_" },
     "readme": { "codeBlocks": 2 }
+  },
+
+  "origin": {
+    "column": "Origem",
+    "sourceValue": "SOURCE",
+    "derivedValue": "DERIVED"
   },
 
   "immutable": {

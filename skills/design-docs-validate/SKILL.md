@@ -32,16 +32,18 @@ The script verifies:
 
 | # | Check |
 |---|---|
-| 1 | Required files exist |
+| 1 | Required files exist; optional documents are checked when present and reported when absent |
 | 2 | ADRs: count, name `ADR-NNN-kebab.md`, MADR sections |
 | 3 | Encoding: no `U+FFFD`, no cp1252 mojibake (accents turned into two-character sequences) |
 | 4 | PRD: FRs, out of scope with category marked, risks with probability |
-| 5 | RFC: alternatives with trade-off, open questions, ADR links resolve |
-| 6 | FDD: input **and** output per contract, error prefix, observability on three axes, real paths in the integration |
+| 5 | RFC (when present): alternatives with trade-off, open questions, ADR links resolve |
+| 6 | FDD (when present): input **and** output per contract, error prefix, observability on three axes, real paths in the integration |
 | 7 | Tracker: exact header, allowed sources, each locator resolves in the source, minimum coverage |
 | 8 | Every cited code path exists (or is in `newPathAllowlist`) |
 | 9 | README with code blocks |
 | 10 | Nothing changed outside the allowed area (`git diff --name-only <baseRef>`) |
+
+The locator format is configuration, not code: `source.locatorPattern` and `tracker.locatorPattern` each capture the time (group 1) and the speaker (group 2). The default is `[hh:mm] Name`; a different format is a config change. RFC and FDD are optional by default — `docs.required` and `docs.optional` decide what must exist.
 
 **When the script complains, the document is almost always wrong — but not always.** A validator has bugs too. Before "fixing" the document, confirm the problem is real: open the file at the line it points to. If the document is right and the script is wrong, fix the script; do not work around the document to please a regex.
 

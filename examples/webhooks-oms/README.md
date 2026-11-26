@@ -20,7 +20,7 @@ PRD functional reqs       16
 RFC open questions         7
 FDD error codes           13
 Tracker rows             111   (92 transcript + 19 code)
-Locators valid       92/111 = 82.9%
+Locators valid        92/92 = 100.0%
 Code paths cited          25   (0 nonexistent)
 Files changed outside docs/ and README.md: 0
 ```

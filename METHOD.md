@@ -318,12 +318,21 @@ node frameworks/chain-of-custody/scripts/verify.mjs <repo> <config.json>
 
 Checks, without judgment:
 
-- mandatory files exist;
+- required files exist; optional documents are checked when present and reported when absent;
 - every cited code path exists;
 - every locator resolves in the source;
 - the table only uses permitted sources;
 - minimum counts per document;
+- section references (`FDD §6.3`) resolve to a real heading;
+- any coverage number the tracker states matches the computed one;
+- a declared origin column has a value on every row, and each `SOURCE` row points at a locator or a code path;
 - nothing outside the permitted areas was changed.
+
+The locator format is not fixed: `source.locatorPattern` and `tracker.locatorPattern` describe how a locator appears in the source and in a cell, each capturing time and speaker. The default is `[hh:mm] Name`; a different format is a configuration change, not a code change.
+
+It also warns — without failing — about locators that cannot distinguish two lines by the same speaker, and about an immutability `baseRef` that only sees uncommitted work.
+
+The mechanical check reads **form, not meaning**. It proves the package is well-formed, not that it is right: a paragraph can sit next to a valid locator and still say the opposite of the source. What reads meaning is the Goldfish protocol (§8.2). Green here is a floor, not a ceiling.
 
 Output: exit 0 if clean, exit 1 with the list of problems.
 

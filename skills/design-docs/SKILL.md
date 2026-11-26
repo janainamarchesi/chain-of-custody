@@ -43,18 +43,20 @@ Survey what already exists and what the feature will couple to. Name the real sy
 
 ### 0.3 Decide the package
 
-Confirm with the user what will be delivered. The default is:
+Confirm with the user what will be delivered. The default is the full package:
 
 ```
-docs/PRD.md
-docs/RFC.md
-docs/FDD.md
+docs/PRD.md              (required)
+docs/RFC.md              (optional)
+docs/FDD.md              (optional)
 docs/adrs/ADR-NNN-title-in-kebab-case.md   (5 to 8)
-docs/TRACKER.md
+docs/TRACKER.md          (required)
 README.md
 ```
 
-Adjust if the source cannot support that — for example, if there are no closed architectural decisions, ADRs are the wrong piece and you say so instead of inventing decisions.
+RFC and FDD are optional: include them when the deliberation has a proposal to review and a design to implement. A smaller package (PRD + ADRs + tracker + README) is valid and the validator supports it — put the documents that are not needed in `docs.optional`, not in `docs.required`.
+
+Adjust if the source cannot support the package — for example, if there are no closed architectural decisions, ADRs are the wrong piece and you say so instead of inventing decisions.
 
 ### 0.4 Declare the writing boundary
 
@@ -67,7 +69,7 @@ If the user said "do not change the code", that is absolute. It is not a style p
 
 ### 0.5 Write the configuration
 
-Copy `../../config.example.json` into the project and adjust it: source file, locator regex, code path patterns, sources allowed in the tracker, minimums per document, immutable area.
+Copy `../../config.example.json` into the project and adjust it: source file, locator regexes (`source.locatorPattern` for the transcript, `tracker.locatorPattern` for the cells), required and optional documents, code path patterns, sources allowed in the tracker, minimums per document, immutable area.
 
 Pay attention to `code.newPathAllowlist`: these are the **new** files the feature proposes to create. They legitimately do not exist yet. Everything not in that list must exist — and you check it.
 

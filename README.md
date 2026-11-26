@@ -322,12 +322,18 @@ The normal path is to invoke `design-docs` and let it drive. The other three exi
 node scripts/verify.mjs <repo-path> config.example.json
 ```
 
-The mechanical check validates: required files exist, every locator resolves in the source, every code path exists, the table uses only allowed sources, the minimums are met, and nothing was changed outside the allowed area. It runs on any project — the config describes the sources. Requires Node 18+; installs nothing.
+The mechanical check validates: required files exist, every locator resolves in the source, every code path exists, the table uses only allowed sources, the minimums are met, and nothing was changed outside the allowed area — tracked modifications and untracked new files alike. It also resolves section references (`FDD §6.3`), checks that any coverage number the tracker states matches the computed one, validates a declared origin column row by row, and warns about locators that cannot distinguish two lines by the same speaker. It runs on any project — the config describes the sources. Requires Node 18+; installs nothing. Pass `--summary` to print the numbers the tracker should state — computed, not counted by hand.
 
-Two keys deserve attention:
+Not every package needs every document. `docs.required` lists what must exist; `docs.optional` lists what is checked in full when present and reported as absent when not. RFC and FDD are optional by default, so a smaller package (PRD + ADRs + tracker + README) validates without ceremony — and a missing optional document is stated in the report instead of skipped in silence.
+
+Keys that deserve attention:
 
 - **`code.newPathAllowlist`** — the **new** files the feature proposes to create. They legitimately don't exist yet; without being listed here, check 8 flags them (correctly) as missing.
 - **`immutable.gitBinary`** — path to the git executable, for environments where it isn't on `PATH`. If it can't be found, check 10 only records that it didn't run; it never fails the package because of that. Because an absolute path differs per machine and shouldn't be committed, the validator also reads the `COC_GIT_BINARY` environment variable first — set it once in your shell and leave the config portable.
+- **`origin.column`** — the table column that declares where each row came from (`Origin` / `Origem`). When set, every row must carry `SOURCE` or `DERIVED`, and a `SOURCE` row must point at a locator or a code path that resolves. Leave it `null` if the package has no such column.
+- **`source.locatorPattern` and `tracker.locatorPattern`** — how a locator looks in the source and in a tracker/origin cell. Both must capture the time (group 1) and the speaker (group 2); the validator compares the key `time speaker`. Change both together when the format differs from `[hh:mm] Name`. A pattern with fewer than two capture groups is refused at startup with a clear message instead of crashing mid-run.
+
+The check reads **form, not meaning**. It proves the package is well-formed, not that it is right: a paragraph can sit next to a valid locator and still contradict the source. What reads meaning is the Goldfish protocol (§6). A clean run here is a floor, not a ceiling.
 
 **The validator is language-independent too.** Section headings and inline markers are regex fragments in `docs.sections` and `docs.markers`, not hardcoded English. [`config.example.pt-br.json`](config.example.pt-br.json) is the same package validated in Portuguese — it is what runs against the reference case:
 
@@ -338,7 +344,7 @@ node scripts/verify.mjs ../mba-ia-desafio-design-docs-com-ia config.example.pt-b
 ```
 ADRs: 7 · PRD: 16 functional requirements · PRD: 6 out-of-scope items
 RFC: 7 open questions · FDD: 13 WEBHOOK_* codes · FDD: 17 paths in the integration section
-TRACKER: 111 rows · valid locators 92/111 = 82.9% · 19 code rows
+TRACKER: 111 rows · valid locators 92/92 = 100.0% · 19 code rows
 cited paths: 25, missing: 0 · git: 13 files changed since HEAD~6
 
 === PROBLEMS (0) ===
@@ -385,7 +391,7 @@ PRD functional reqs     16
 RFC open questions       7
 FDD error codes          13
 Tracker rows            111   (92 transcript + 19 code)
-Locators valid       92/111 = 82.9%
+Locators valid       92/92 = 100.0%
 Code paths cited         25   (0 nonexistent)
 Mechanical check          0 problems
 Files changed outside docs/ and README.md: 0
@@ -412,7 +418,7 @@ This repository is an **invitation, not a finished product**. The method came ou
 | What | Why it matters |
 |---|---|
 | **Run it on a different stack** — mobile, data pipeline, infrastructure, a library | The three generics (§7) are a claim, not a verified fact. A case that breaks them is the most useful thing you can find. |
-| **Use a non-meeting source** — a PR thread, a Slack thread, a discovery doc | Locator formats differ; the verifier's regexes were only ever tested against `[hh:mm] Speaker`. |
+| **Use a non-meeting source** — a PR thread, a Slack thread, a discovery doc | Locator formats differ; the default patterns expect `[hh:mm] Speaker`, but `source.locatorPattern` and `tracker.locatorPattern` make the format a configuration change. |
 | **Find a validator bug** | It already had several. If the script accuses a correct document, that is an issue — and fixing it is part of the method, not a workaround. |
 | **Add a template or a check** | The six templates cover what the reference case needed. Yours may need a seventh. |
 | **Report a false sense of security** | The most valuable bug class: a check that passes when it should not. |
@@ -429,7 +435,7 @@ A checker nobody has tried to fool is a checker nobody should trust. This reposi
 node tests/mutate.mjs <package-dir> <config.json>
 ```
 
-Thirteen mutations, each a single defect a correct validator must catch: a broken transcript locator, a nonexistent code path, a disallowed source, a renamed table header, a removed contract example, lost open questions, a broken ADR link, mojibake, and a missing MADR section. The script also runs the unmutated package first — if the baseline is not clean, no result below it means anything.
+Nineteen mutations, each a single defect a correct validator must catch: a broken transcript locator, a nonexistent code path, a disallowed source, a renamed table header, a removed contract example, lost open questions, a broken ADR link, mojibake, a missing MADR section, an out-of-scope item that loses its category marker while its neighbours keep theirs, a section reference to a heading that does not exist, a coverage number the data contradicts, an unknown value in the origin column, a `SOURCE` row with no locator, and a tracker row whose locator cannot distinguish two lines by the same speaker (asserted on the warning line). The script also runs the unmutated package first — if the baseline is not clean, no result below it means anything.
 
 **Writing the suite found a real hole.** The first run scored 12/13: renaming one table header in the tracker went undetected. The tracker holds one table per document, and the check only asked whether the correct header appeared *somewhere* — so a corrupted header among four correct ones passed. The fix requires every header row to match. That is what the suite is for: it is a check on the checks.
 

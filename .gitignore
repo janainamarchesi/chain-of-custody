@@ -5,3 +5,6 @@ Thumbs.db
 
 # local verification configs that may contain machine-specific paths
 config.local.json
+
+# launch draft (blog post), not part of the framework package
+article/
