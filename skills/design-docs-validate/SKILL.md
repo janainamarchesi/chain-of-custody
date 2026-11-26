@@ -51,7 +51,20 @@ The reverse is more dangerous: adjusting the text until the regex passes. That t
 
 ## Part 2 — Goldfish protocol
 
-Four subagents. Launch them with the Agent tool, one per check, each receiving **only the document**.
+Four checks. Launch a **fresh** agent for each one — never `fork`, which inherits the author's full context. The zero-context condition is not a suggestion; it is what makes the check valid.
+
+### Enforcing zero context
+
+A fresh agent starts with only what you put in the prompt. It is not literally empty: the host may inject project instructions and memory. The framework cannot control that, so remove the contamination you can:
+
+- **Never `fork`.** A fork carries the conversation — the author's reasoning, the decisions, the earlier drafts. The critique then measures the author's intent, not the document.
+- **Put only the document in the prompt** — inline text, or a path to a copy in an isolated directory. No history, no justification, no other documents, no transcript.
+- **Restrict the tools.** If the document is inline, the agent needs no tools. If it is a path, give it `Read` on that copy only — not the repository, where the transcript and the other documents sit.
+- **One agent per check.** No shared memory between checks; a critique that builds on the previous one is no longer independent.
+
+**G4 is the exception.** Provenance cannot be checked without the source: the agent needs the document **and** the source (or the relevant excerpt), plus the ledger. It still gets no author reasoning.
+
+**Contamination test.** If the critique cites the author's intent ("you meant X") instead of the document's text ("the document says X, but does not define Y"), the run is contaminated. Discard it and run again with a cleaner prompt. The first engineer who picks up the document will not have the author's intent either.
 
 ### G1 — Comprehension
 
@@ -115,6 +128,7 @@ Do not stop at the first clean pass of G3 if G4 has not run yet. And do not acce
 - [ ] G2: the intersection's critiques were fixed or explicitly rejected with a reason.
 - [ ] G3: go, with the remaining questions classified as non-blocking.
 - [ ] G4: 10/10 claims resolve in the source; no speaker swapped.
+- [ ] Every check ran in a fresh agent (never `fork`), and no critique cited the author's intent instead of the document's text.
 - [ ] `git diff` shows changes only in the allowed area.
 
 If any item fails, do not publish. A published package with a known problem is worth less than a delayed one.

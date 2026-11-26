@@ -107,11 +107,12 @@ Hard rule: **the Elephant does not validate its own work.** It may review for in
 
 A **fresh session with no history**, receiving only:
 
-- the document to validate,
-- the raw source,
-- the ledger.
+- the document to validate;
+- the raw source and the ledger, when the check is provenance (G4) — G1–G3 receive only the document.
 
 Nothing else. Not the Elephant's reasoning, not the earlier decisions the Elephant made, not the conversation that led there.
+
+Zero context is a mechanism, not a wish. The session must be fresh — never a `fork`, which inherits the whole conversation. The prompt carries only the document (and, for G4, the source and the ledger). The tools must not reach the repository, where the transcript and the other documents sit. If a critique cites the author's intent ("you meant X") instead of the document's text ("the document says X, but does not define Y"), the run is contaminated: discard it and rerun.
 
 Why the context restriction is the whole point: if the Goldfish knows *why* the Elephant wrote something, it stops testing it. The value is in reconstructing intent from the artifact — and if it can't, the artifact is ambiguous, which is exactly what a team member will feel when they try to implement it.
 
@@ -221,6 +222,8 @@ Go/no-go. A question with no answer in the document is a gap, not a detail.
 > "Pick ten claims at random. For each, find its locator in the ledger and confirm it resolves in the source. Flag any that don't."
 
 This check is Chain of Custody's contribution to the original protocol. The first three test **clarity**; this one tests **truth**. A document can be perfectly clear about something nobody decided.
+
+Each check runs in a fresh agent — never a `fork` — with only the document in the prompt; G4 also gets the source and the ledger. Restrict the tools so the agent cannot read the repository. If a critique cites the author's intent rather than the document's text, the run is contaminated: discard it and rerun.
 
 Critiques return to the Elephant, who fixes and resubmits. The cycle ends when G1 passes without correction and G3 gives a go.
 
