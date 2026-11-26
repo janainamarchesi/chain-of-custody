@@ -377,9 +377,13 @@ for (const r of results) {
   console.log(`${r.pass ? 'PASS' : 'FAIL'}  ${r.name.padEnd(width)}  -> ${r.got}`);
 }
 const failed = results.filter((r) => !r.pass);
-const survived = failed.filter((r) => r.applied !== false);
-const notApplied = failed.filter((r) => r.applied === false);
-console.log(`\n${results.length - failed.length}/${results.length} mutations detected.`);
+// The baseline is a control, not a mutation: it must pass, but it does not
+// count toward the mutation score.
+const mutations = results.filter((r) => r.name !== 'BASELINE (no mutation)');
+const failedMutations = mutations.filter((r) => !r.pass);
+const survived = failedMutations.filter((r) => r.applied !== false);
+const notApplied = failedMutations.filter((r) => r.applied === false);
+console.log(`\n${mutations.length - failedMutations.length}/${mutations.length} mutations detected.`);
 if (survived.length) {
   console.log('\nSurviving mutations (the validator has holes here):');
   for (const f of survived) console.log(`  - ${f.name} (expected to see "${f.expected}")`);
