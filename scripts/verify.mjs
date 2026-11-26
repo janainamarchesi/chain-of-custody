@@ -3,7 +3,7 @@
  * verify.mjs — mechanical validation of a design-docs package.
  *
  * Usage:
- *   node verify.mjs <repo> [config.json]
+ *   node verify.mjs <repo> [config.json] [--summary]
  *
  * Without a config, the built-in defaults are used.
  * Output: exit 0 = clean, exit 1 = problems found.
