@@ -291,6 +291,29 @@ Each of these appeared in real use and cost time to detect.
 
 ---
 
+## 8.5 When *not* to use it
+
+Being deliberate about the cost is part of the method. The full package is not free, and pretending otherwise is how good frameworks get abandoned mid-adoption.
+
+| Situation | Do this instead |
+|---|---|
+| A change is well understood, small, and decided by one person | Skip straight to an ADR + FDD. No PRD, no RFC, no tracker. |
+| You need a doc *today* and nobody downstream will audit it | Write it. Requirement. If it later becomes load-bearing, retro-fit the ledger before anyone implements against it. |
+| The source has no verifiable locators (unstructured notes, one person's memory) | The tracker cannot close. Use the templates for structure, and don't claim traceability you can't show. |
+| Architecture is still being invented and no decision is closed | You have an open question, not a package. Run F0–F1 only and stop at the RFC's open questions. |
+
+**The cost is real:** a full package on a ~1-hour deliberation took roughly 40 minutes of generation plus several critique cycles. That is cheap against a sprint spent building a discarded requirement, and expensive against a README no one will read. Use the size of the decision to choose the package (see [`METHOD.md` §F0](METHOD.md)).
+
+**Try it in two minutes.** After cloning this repo:
+
+```bash
+node tests/mutate.mjs <path-to-reference-case> config.example.pt-br.json
+```
+
+with the reference case cloned from [`janainamarchesi/mba-ia-desafio-design-docs-com-ia`](https://github.com/janainamarchesi/mba-ia-desafio-design-docs-com-ia). It runs the validator against a clean package, injects eighteen single defects, and prints which ones the check caught. If the baseline is not clean, no mutation result below it means anything — the script says so itself.
+
+---
+
 ## 9. How to use it
 
 ### With the skills
@@ -306,7 +329,10 @@ Four skills implement the method. Each is self-contained: it can be invoked in a
 
 The normal path is to invoke `design-docs` and let it drive. The other three exist separately because each has its own exit criterion — and because F8 must run in a different context from the rest.
 
-**Install:** copy the four directories under [`skills/`](skills/) into your project's `.claude/skills/`. They reference the framework files by relative path, so keep `frameworks/chain-of-custody/` (or this repo) alongside — or adjust the paths at the top of each skill.
+**Install:** the skills reference the framework files (`scripts/`, `templates/`) by relative path, so they only resolve from inside this repo's layout. Two supported ways to use them:
+
+- **Recommended — keep the repo and run it in place.** Clone this repository and invoke the skills from there (e.g. point your project session at `chain-of-custody/skills/`). Copy `config.example.json` into the *target* project; the validator receives the target as an argument, so it never needs to live inside it.
+- **Copy into a project** — copy the four directories under [`skills/`](skills/) into your project's `.claude/skills/`, then replace every `<framework-root>` placeholder in the skill files with the absolute path to your `chain-of-custody` checkout. `../../` alone will **not** resolve from `.claude/skills/`.
 
 ### Manually
 

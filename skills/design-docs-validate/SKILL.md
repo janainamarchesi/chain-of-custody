@@ -23,8 +23,10 @@ That is why each check runs in a new subagent, with **only the document**. Do no
 ## Part 1 — Mechanical check
 
 ```bash
-node ../../scripts/verify.mjs <repo> <config.json>
+node <framework-root>/scripts/verify.mjs <repo> <config.json>
 ```
+
+(`<framework-root>` is the `chain-of-custody` checkout — `../../` when this skill sits inside that repo, the absolute path otherwise.)
 
 No git on the PATH? Set `COC_GIT_BINARY` to the absolute path of the binary, or pass `immutable.gitBinary` in the config. The environment variable is preferred because it keeps the config portable.
 

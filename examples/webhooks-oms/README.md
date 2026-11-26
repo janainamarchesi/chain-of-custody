@@ -57,7 +57,7 @@ To re-run the check against the published package:
 node scripts/verify.mjs <path-to-clone-of-the-package> config.example.pt-br.json
 ```
 
-That config reproduces the published result exactly: **0 problems**, 111 tracker rows, 92/111 valid locators. The English `config.example.json` is the template for a new project, not for this one.
+That config reproduces the published result exactly: **0 problems**, 111 tracker rows, 92/92 valid transcript locators (the 19 code rows point at files, not timestamps). The English `config.example.json` is the template for a new project, not for this one.
 
 ## Why this case is worth reading
 

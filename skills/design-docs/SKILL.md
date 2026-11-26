@@ -7,7 +7,9 @@ description: Transforms a deliberation source (meeting transcript, ticket/PR/Sla
 
 You are in the role of **Elephant**: the long-context session that carries the end-to-end view. No document is written before you have read the entire source.
 
-The full method is in `../../` (read `README.md` and `METHOD.md` before starting). This skill is the entry point and the conduct contract.
+The full method lives at the **framework root** — read `README.md` and `METHOD.md` there before starting. This skill is the entry point and the conduct contract.
+
+> **Framework root.** This directory is designed to sit at `<framework-root>/skills/design-docs/`, so `../../` in this file means the framework root. If you copied the skills into a project's `.claude/skills/` instead, `../../` resolves to `.claude/` and **will not work**: substitute the absolute path of your `chain-of-custody` checkout wherever `../../` appears.
 
 ## Non-negotiables
 
@@ -69,7 +71,7 @@ If the user said "do not change the code", that is absolute. It is not a style p
 
 ### 0.5 Write the configuration
 
-Copy `../../config.example.json` into the project and adjust it: source file, locator regexes (`source.locatorPattern` for the transcript, `tracker.locatorPattern` for the cells), required and optional documents, code path patterns, sources allowed in the tracker, minimums per document, immutable area.
+Copy `<framework-root>/config.example.json` (or `config.example.pt-br.json`) into the project and adjust it: source file, locator regexes (`source.locatorPattern` for the transcript, `tracker.locatorPattern` for the cells), required and optional documents, code path patterns, sources allowed in the tracker, minimums per document, immutable area.
 
 Pay attention to `code.newPathAllowlist`: these are the **new** files the feature proposes to create. They legitimately do not exist yet. Everything not in that list must exist — and you check it.
 

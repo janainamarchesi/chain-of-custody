@@ -7,7 +7,7 @@ description: Builds the evidence base of a design docs package — the table of 
 
 This is the phase that decides the quality of the entire package. Everything else is consolidation of what you produce here.
 
-Your final product is **one file**: `docs/EVIDENCE.md` (template at `../../templates/EVIDENCE.md`). It is not a client deliverable — it is your ballast. But it is what prevents invention.
+Your final product is **one file**: `docs/EVIDENCE.md` (template at the framework root: `<framework-root>/templates/EVIDENCE.md`, i.e. `../../templates/` when this skill sits inside the framework repo). It is not a client deliverable — it is your ballast. But it is what prevents invention.
 
 ## Golden rule
 

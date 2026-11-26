@@ -5,7 +5,7 @@ description: Generates the design docs from a transcript in the Chain of Custody
 
 # design-docs-write — F2 to F7: writing at the right altitudes
 
-The templates are in `../../templates/`. Use them. They encode the boundary decisions you would otherwise have to rediscover by making mistakes.
+The templates are in `<framework-root>/templates/` (`../../templates/` when this skill sits inside the framework repo). Use them. They encode the boundary decisions you would otherwise have to rediscover by making mistakes.
 
 ## The altitude table
 
